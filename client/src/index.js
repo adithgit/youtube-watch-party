@@ -1,6 +1,6 @@
 import React from 'react';
-import App from './App';
-import Room from './Room'
+import App from './components/App';
+import Room from './components/Room'
 import './index.css';
 import ReactDOM from "react-dom/client";
 import {
