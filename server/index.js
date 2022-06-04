@@ -1,31 +1,38 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const cors = require('cors');
 const app = express();
 const httpServer = createServer(app);
-
+const room = require('./Rooms')
 const io = new Server(httpServer, {
     cors: {
         origin: 'http://localhost:3000'
     }
 });
 
+
+
 io.on("connection", (socket) => {
+    
     let roomId = socket.id;
-    console.log(roomId);
-    socket.on('create-room',()=>{
+
+    socket.on('create-room',( videoURL )=>{
         socket.join(roomId);
-        console.log(socket.rooms);
-    })
+        room.addRoom( roomId, roomId, videoURL );
+    });
+
     socket.on('join-room',( roomId )=>{
-        console.log( roomId );
         socket.join( roomId )
-        console.log(io.sockets.adapter.rooms);
-    })
-    socket.on("hello", (args)=>{
+        room.addUser( roomId, socket.id);
+    });
+
+    socket.on("hello", ( args )=>{
         socket.broadcast.emit("responses",args);
     });
+
+    socket.on('disconnect', ()=>{
+        room.removeuser( socket.id )
+    })
 });
 
 httpServer.listen(3002);

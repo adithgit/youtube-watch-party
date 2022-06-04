@@ -3,6 +3,7 @@ import {  useNavigate } from 'react-router-dom';
 import { io } from 'socket.io-client'
 function App() {
   let socket = null;
+  const videoURL = useRef();
   const roomInput = useRef();
   let naviagte = useNavigate();
   const hostRoom = async()=>{
@@ -11,7 +12,7 @@ function App() {
       console.log(socket.id);
       naviagte(`room/${socket.id}`)
     })
-    socket.emit('create-room');
+    socket.emit('create-room',{ videoURL : videoURL.current.value });
   }
   const joinRoom = async()=>{
     const roomId = roomInput.current.value;
@@ -26,6 +27,7 @@ function App() {
     <div>
       App
       <br />
+      <input ref={ videoURL } placeholder='Enter the video URL'></input>
       <button onClick={ hostRoom }>Host a room</button>
       <input ref={ roomInput } required></input>
       <button onClick={ joinRoom }>Join a room</button>
