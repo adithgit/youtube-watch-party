@@ -16,9 +16,9 @@ io.on("connection", (socket) => {
     
     let roomId = socket.id;
 
-    socket.on('create-room',( videoURL )=>{
+    socket.on('create-room',( { url } )=>{
         socket.join(roomId);
-        room.addRoom( roomId, roomId, videoURL );
+        room.addRoom( roomId, roomId, url );
     });
 
     socket.on('join-room',( roomId )=>{
@@ -30,7 +30,8 @@ io.on("connection", (socket) => {
         socket.broadcast.emit("responses",args);
     });
 
-    socket.on('disconnect', ()=>{
+    socket.on('disconnect', ( args )=>{
+        socket.broadcast.emit("closed", socket.id)
         room.removeuser( socket.id )
     })
 });

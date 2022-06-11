@@ -1,10 +1,15 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-
+import './Room.css'
+import Player from './Player';
+import Chat from './Chat';
 function Room() {
-    let params = useParams();
+    let { roomId } = useParams();
   return (
-    <div>Entered Room No {params.roomId}</div>
+    <div className='roomContainer'>
+    <Player />
+    <Chat /> 
+    </div>
   )
 }
 

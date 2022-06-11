@@ -28,6 +28,8 @@
   width: 90%;
   border-radius: 10px;
   box-shadow: 0px 0px 2px 1px rgb(73, 33, 255);
+  animation: colors 10s infinite;
+  
 }
 .youtube-image{
   width: 50%;
@@ -64,9 +66,11 @@
 @keyframes colors {
   0%, 50%{
     border-color: blue ;
+    box-shadow:  0px 0px 2px 1px  blue;
   }
   25%, 75%{
     border-color: aqua;
+    box-shadow: 0px 0px 2px 1px  aqua;
   }
 
 }
