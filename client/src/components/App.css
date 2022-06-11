@@ -56,7 +56,7 @@
 }
 
 .input-group{
-  margin-top: 3rem;
+  margin-top: 1rem;
   width: 100%;
   justify-content: center;
 }
@@ -69,4 +69,23 @@
     border-color: aqua;
   }
 
+}
+
+@media (max-width:800px) {
+  .youtube-section{
+    flex-direction: column;
+  }
+  .youtube-image {
+    width: 100%;
+  }
+  .youtube-text{
+    width: 90%;
+    font-size: x-large;
+    margin-top: 1rem;
+    margin-inline: auto;
+    justify-content: center;
+  }
+  .get-started{
+    font-size: x-large;
+  }
 }
