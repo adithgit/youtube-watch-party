@@ -19,11 +19,14 @@ io.on("connection", (socket) => {
     socket.on('create-room',( { url } )=>{
         socket.join(roomId);
         room.addRoom( roomId, roomId, url );
+        console.log( room.room);
     });
 
     socket.on('join-room',( roomId )=>{
-        socket.join( roomId )
+        socket.join( roomId );
         room.addUser( roomId, socket.id);
+        console.log( room.room);
+
     });
 
     socket.on("hello", ( args )=>{

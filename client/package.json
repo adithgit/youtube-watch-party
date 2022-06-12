@@ -10,6 +10,7 @@
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "4.0.3",
+    "react-youtube": "^9.0.2",
     "socket.io-client": "^4.5.1",
     "typewriter-effect": "^2.18.2"
   },

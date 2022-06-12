@@ -24,6 +24,12 @@ class Rooms {
         this.users.set(userId, roomId);
     }
 
+    getUsers = ( roomId ) => {
+        
+        let index = this.room.map((room) => room.roomId).indexOf(roomId);
+        return this.room[ index ].members;
+    }
+
     removeuser = (userId) => {
         let index = this.room.map((room) => room.roomId).indexOf(this.users.get(userId));
 
