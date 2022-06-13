@@ -5,8 +5,6 @@ import YouTube from 'react-youtube';
 function Player() {
   
   let opts = {
-    width:window.innerWidth/1.5,
-    height:window.innerHeight/1.5,
       playerVars: {
         autoplay: 1,
       },
@@ -17,7 +15,7 @@ function Player() {
     }
   return (
     <div className='youtube-container'>
-    <YouTube  videoId="bEMAhuvwyvQ" opts={opts} onReady={ onReady } />
+    <YouTube className='iframe-container' videoId="bEMAhuvwyvQ" opts={opts} onReady={ onReady } />
     </div>
   )
 }
