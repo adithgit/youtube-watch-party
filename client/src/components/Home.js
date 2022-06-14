@@ -54,7 +54,7 @@ function Home() {
                 <div className="input-group flex">
                     <div className="host-room flex flex-column">
                         <TextField inputRef={videoURL} id="outlined-basic" sx={{ input: { color: 'white' }, margin: '1rem' }} label="Youtube Video URL" focused variant="outlined" />
-                        <Button sx={{ width: "80%", color: "white", margin: 'auto' }} variant='outlined' onClick={hostRoom} > "Host Room" </Button>
+                        <Button sx={{ width: "80%", color: "white", margin: 'auto' }} variant='outlined' onClick={hostRoom} > Host Room </Button>
                     </div>
                     <div className="join-room flex flex-column">
                         <TextField inputRef={roomInput} id="outlined-basic" label="Room ID" sx={{ input: { color: 'white' }, margin: '1rem' }} focused variant="outlined" />
