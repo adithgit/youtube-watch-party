@@ -1,6 +1,9 @@
 import React from 'react';
 import './Room.css';
 import { TextField } from '@mui/material';
+import { Send } from '@mui/icons-material';
+import InputAdornment from '@mui/material';
+import IconButton from '@mui/material';
 function Chat() {
   const members = [
     '12212',
@@ -33,7 +36,7 @@ function Chat() {
        fullWidth
   hiddenLabel
   id="filled-hidden-label-normal"
-  defaultValue="Normal"
+  defaultValue="Send a message"
   variant="filled"
   color='white'
 />
