@@ -51,6 +51,9 @@ iframe{
     bottom: 0;
     left: 0;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1rem;
 }
 
 .member-field{

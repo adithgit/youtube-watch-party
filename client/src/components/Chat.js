@@ -1,13 +1,12 @@
 import React from 'react';
 import './Room.css';
-import { TextField } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+import FormControl  from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import FilledInput from '@mui/material/FilledInput';
-import SendIcon from '@mui/icons-material/Send';
-import { Send } from '@mui/icons-material';
+import  Input from '@mui/material/Input';
+import IconButton  from '@mui/material/IconButton';
+import  Send  from '@mui/icons-material/Send';
+
+
 function Chat() {
   const members = [
     '12212',
@@ -20,6 +19,9 @@ function Chat() {
     'qww', '12212',
     'qww'
   ]
+
+
+
   return (
     <div className='chat-container'>
       <div className='chat-field'>
@@ -36,22 +38,24 @@ function Chat() {
 
         </div>
         <div className='input-field'>
-          <FormControl fullWidth variant="filled">
-            <InputLabel htmlFor="filled-hidden-label-normal">Enter message to send</InputLabel>
-            <FilledInput
-              id="filled-hidden-label-normal"
-              color='white'
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    edge="end"
-                  >
-                    <SendIcon color='white' />
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+        <FormControl  id='filled-basic'  variant='filled' sx={{ width:'90%', input: { color: 'white' }}} >
+          <Input
+          placeholder='Enter your message here'
+          
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  edge="end"
+                  color='primary'
+      
+                >
+                 <Send  sx={{ color: 'white'}}  />
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
         </div>
       </div>
     </div>
