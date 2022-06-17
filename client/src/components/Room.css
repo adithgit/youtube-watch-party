@@ -43,10 +43,13 @@ iframe{
 
 .text-field{
     width: 100%;
-    height: 90%;
+    max-height: 80%;
+    overflow-y: scroll;
 }
 
 .input-field{
+    border-top: 1px solid white;
+    padding-top: 1rem;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -69,6 +72,25 @@ iframe{
     margin-inline: 5px;
 }
 
+.next-video{
+    display: flex;
+    justify-content: center;
+}
+
+.left-message, .right-message{
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.left-message span, .right-message span{
+    border: 1px solid white;
+    padding: 1rem;
+    border-radius: 20px;
+}
+
+.right-message {
+    text-align: end;
+}
 
 @media ( max-width:1200px) {
     .roomContainer{
