@@ -34,7 +34,7 @@ iframe{
 }
 
 .chat-field{
-    border: 1px solid rgb(255, 255, 255);
+    border: 2px solid rgb(255, 255, 255);
     border-radius: 1rem;
     height: 70%;
     overflow: hidden;
@@ -42,13 +42,19 @@ iframe{
 }
 
 .text-field{
+    display: block;
     width: 100%;
     max-height: 80%;
     overflow-y: scroll;
 }
 
+.next-video{
+    margin-top: 1rem;
+}
+
 .input-field{
     border-top: 1px solid white;
+    background-color: rgb(22, 21, 21);
     padding-top: 1rem;
     position: absolute;
     bottom: 0;
@@ -77,21 +83,28 @@ iframe{
     justify-content: center;
 }
 
-.left-message, .right-message{
-    padding: 1rem;
+.left-message{
+    display: flex;
     margin: 1rem;
+    align-items: center;
 }
 
-.left-message span, .right-message span{
+.name{
+    margin-right: 5px;
+}
+
+.right-message{
+    margin: 1rem;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 10px;
+}
+
+.message{
     border: 1px solid white;
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 20px;
 }
-
-.right-message {
-    text-align: end;
-}
-
 @media ( max-width:1200px) {
     .roomContainer{
         padding-top: 4rem;
@@ -103,9 +116,10 @@ iframe{
     }
     .chat-container{
         margin-top: 2rem;
-        width: 80%;
+        width: 90%;
         height: 50vh;
         margin-inline: auto;
+        font-size: small;
     }
     .text-field{
         height: 50%;
