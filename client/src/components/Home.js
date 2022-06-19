@@ -4,26 +4,37 @@ import Typewriter from 'typewriter-effect';
 import { socketContext, userContext } from './App';
 import { useNavigate } from 'react-router-dom';
 
+
 function Home() {
 
     const videoURL = useRef();
     const roomInput = useRef();
     const name = useRef();
     let navigate = useNavigate();
-    const socket = useContext( socketContext );
+    const socket = useContext(socketContext);
+    const users = useContext(userContext);
 
     const hostRoom = async () => {
+        socket.userName = name.current.value;
         const url = videoURL.current.value;
         console.log(url);
-        socket.emit('create-room', { url });
-        navigate(`/${socket.id}`)
+        socket.roomId = socket.id;
+        socket.emit('create-room', { name: socket.userName, url });
+        users.updateUsers([{id:socket.id, name: socket.userName}]);
+        navigate(`/${socket.id}`);
     }
 
     const joinRoom = async () => {
+        socket.userName = name.current.value;
         const roomId = roomInput.current.value;
+        socket.roomId = roomId;
         console.log(roomId);
-        navigate(`/${roomId}`)
-        socket.emit('join-room', roomId);
+        socket.emit('join-room', {name: socket.userName, roomId}, (response) => {
+            console.log(response);
+            users.updateUsers(response.roomData.users)
+        });
+        socket.emit('update-userlist', roomId);
+        navigate(`/${roomId}`);
     }
 
     return (

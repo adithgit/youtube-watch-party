@@ -1,16 +1,15 @@
 import React, { useRef, useState } from 'react'
 import {  Route, Routes } from 'react-router-dom';
-import { io } from 'socket.io-client'
 import './App.css'
 import Home from './Home';
 import Room from './Room';
+import { socket } from './Connection';
 
 export const socketContext = React.createContext();
 export const userContext = React.createContext();
 
 function App() {
 
-  let socket = io('http://localhost:3002');
   const [ users, updateUsers ] = useState([]);
 
   socket.on('connect', () => {

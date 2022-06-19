@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Room.css';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -6,48 +6,52 @@ import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
 import Send from '@mui/icons-material/Send';
 import { useEffect, useRef } from 'react';
+import { socketContext, userContext } from './App';
+
 function Chat() {
   const chatBox = useRef();
   const textField = useRef();
-
-  const members = [
-    '12212', 
-    'qww', '12212',
-    'qww', '12212',
-    'qww', '12212',
-    'qww', '12212',
-    'qww', '12212',
-    'qww', '12212',
-    'qww', '12212',
-    'qww'
-  ]
+  const user = useContext( userContext );
+  const socket = useContext( socketContext );
   const [chat, setChat] = useState([]);
 
-  const chatData = [
-    { name: 'name1', message: 'Hey there' },
-  ]
+  // Update user list when a user joins the room
+  socket.on('user-list',( data )=>{
+    user.updateUsers( data )
+  })
+
+  socket.on('message-recieve', ( data )=>{
+    console.log(data);
+    setChat([ ...chat, data ])
+  })
 
   useEffect(() => {
-    setChat(chatData)
-    // Get the scroll height of textField and scroll down using top option of scroll method along with smooth behavior
 
+    console.log(socket.id);
+    // Get the scroll height of textField and scroll down using top option of scroll method along with smooth behavior
     textField.current.addEventListener('DOMNodeInserted', event => {
       const { currentTarget: target } = event;
       target.scroll({ top: target.scrollHeight, behavior: 'smooth' });
     });
-  }, [])
+  }, []);
+
   const sendMessage = () => {
+    console.log(socket.roomId);
+    const message = chatBox.current.value;
+    socket.emit( 'message-sent', {name: socket.userName, message, roomId: socket.roomId });
+    console.log('message sent');
     setChat([...chat, { name: null, message: chatBox.current.value }])
   }
+
   return (
     <div className='chat-container'>
       <div className='chat-field'>
         <div className='member-field'>
           <span style={{ marginRight: '1rem' }}>MEMBERS</span>
           {
-            members.map((member) => {
+            user.users.map((member) => {
               return <span className='member'>
-                {member}
+                {member.name}
               </span>
             })
           }

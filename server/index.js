@@ -16,21 +16,31 @@ io.on("connection", (socket) => {
     
     let roomId = socket.id;
 
-    socket.on('create-room',( { url } )=>{
+    socket.on('create-room',( { name, url } )=>{
         socket.join(roomId);
-        room.addRoom( roomId, roomId, url );
+        room.addRoom( roomId, {id:roomId, name}, url );
         console.log( room.room);
     });
 
-    socket.on('join-room',( roomId )=>{
+    socket.on('join-room',( {name, roomId}, callback )=>{
         socket.join( roomId );
-        room.addUser( roomId, socket.id);
-        console.log( room.room);
-
+        room.addUser( roomId, {id:socket.id, name});
+        const users = room.getUsers( roomId );
+        console.log( users);
+        socket.broadcast.to(roomId).emit('user-list', users)
+        callback(
+            {
+                roomData:{
+                    users,
+                    videoURL: room.getVideoUrl( roomId )
+                }
+            }
+        )
     });
 
-    socket.on("hello", ( args )=>{
-        socket.broadcast.emit("responses",args);
+    socket.on('message-sent', ( messageData )=>{
+        console.log(socket.id);
+        socket.broadcast.to(messageData.roomId).emit('message-recieve', messageData );
     });
 
     socket.on('disconnect', ( args )=>{
