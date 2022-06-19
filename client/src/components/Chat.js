@@ -21,6 +21,7 @@ function Chat() {
   })
 
   socket.on('message-recieve', ( data )=>{
+    if( data.name === socket.userName ) return;
     console.log(data);
     setChat([ ...chat, data ])
   })
