@@ -1,6 +1,7 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const cors = require('cors');
 const app = express();
 const httpServer = createServer(app);
 const room = require('./Rooms')
@@ -10,7 +11,13 @@ const io = new Server(httpServer, {
     }
 });
 
+app.use(cors());
 
+app.get('/:id', function (req, res) {
+    const roomData = room.checkRoom( req.params.id ).then((result)=>{
+        res.json( {roomExists:result} );
+    })
+  });
 
 io.on("connection", (socket) => {
     
@@ -42,8 +49,9 @@ io.on("connection", (socket) => {
     });
 
     socket.on('disconnect', ()=>{
-        socket.broadcast.emit("closed", socket.id)
-        room.removeuser( socket.id )
+        const roomID = room.getRoomId( socket.id )
+        io.to( roomID ).emit('closed', socket.id );
+        room.removeuser( socket.id );
     })
 });
 

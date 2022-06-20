@@ -15,9 +15,19 @@ function Home() {
     const users = useContext(userContext);
 
     const hostRoom = async () => {
+        const url = videoURL.current.value || '';
+        try{
+            const VID_REGEX = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+            const videoId = url.match(VID_REGEX)[1];
+            if( videoId === '' || name.current.value === '' ){
+                throw 'invalidInputException';
+        }
+        }
+        catch{
+            alert('Check your name and YouTube link');
+            return;
+        }
         socket.userName = name.current.value;
-        const url = videoURL.current.value;
-        console.log(url);
         socket.roomId = socket.id;
         socket.emit('create-room', { name: socket.userName, url });
         users.updateUsers([{id:socket.id, name: socket.userName}]);
@@ -26,8 +36,21 @@ function Home() {
 
     const joinRoom = async () => {
         socket.userName = name.current.value;
+        
+        if( name.current.value === '' ){
+            alert('Enter a valid Name.');
+            return;
+        }
+
         const roomId = roomInput.current.value;
         socket.roomId = roomId;
+
+        const response = await fetch(`http://localhost:3002/${roomId}`);
+        const responseData = await response.json();
+        if( !responseData.roomExists ){
+            alert('Enter a valid room Id.');
+            return;
+        }
         console.log(roomId);
         socket.emit('join-room', {name: socket.userName, roomId}, (response) => {
             console.log(response);

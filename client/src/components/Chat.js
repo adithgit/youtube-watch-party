@@ -26,6 +26,15 @@ function Chat() {
     setChat([ ...chat, data ])
   })
 
+  socket.on('closed', ( socketId )=>{
+    console.log("This socket"+socketId);
+    console.log(user.users);
+    user.updateUsers( user.users.filter((socket)=>{
+      return socket.id != socketId
+    }) );
+    console.log(user.users);
+  })
+
   useEffect(() => {
 
     console.log(socket.id);

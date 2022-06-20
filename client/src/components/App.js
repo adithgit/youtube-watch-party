@@ -15,11 +15,7 @@ function App() {
   socket.on('connect', () => {
     console.log(`${socket.id} established connection`);
   });
-
-  socket.on("closed", (args) => {
-    console.log(args);
-    console.log("socket disconnected");
-  })
+  
 
   return (
     <socketContext.Provider value={socket}>
