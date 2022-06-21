@@ -22,13 +22,10 @@ function Chat() {
 
   socket.on('message-recieve', ( data )=>{
     if( data.name === socket.userName ) return;
-    console.log(data);
     setChat([ ...chat, data ])
   })
 
   socket.on('closed', ( socketId )=>{
-    console.log("This socket"+socketId);
-    console.log(user.users);
     user.updateUsers( user.users.filter((socket)=>{
       return socket.id != socketId
     }) );

@@ -9,15 +9,15 @@ class Rooms {
         return new Promise((resolve, reject)=>{
             this.room.map((room)=>{
                 if( room.roomId === roomId ){
-                    resolve(true)
+                    resolve(room)
                 }
             });
             resolve(false)
         })
     }
-    addRoom = (roomId, host, videoURL) => {
+    addRoom = (roomId, host, videoId) => {
         // Push the newly created room into room array
-        this.room.push({ roomId, members: [host], videoURL });
+        this.room.push({ roomId, members: [host], videoId });
         // add user info to user map with the room they are part of 
         this.users.set(host.id, roomId);
     }

@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react'
 import { Button, TextField } from '@mui/material';
 import Typewriter from 'typewriter-effect';
-import { socketContext, userContext } from './App';
+import { socketContext, userContext, videoContext } from './App';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -13,15 +13,18 @@ function Home() {
     let navigate = useNavigate();
     const socket = useContext(socketContext);
     const users = useContext(userContext);
+    const videoState = useContext(videoContext);
 
     const hostRoom = async () => {
         const url = videoURL.current.value || '';
+        let videoId = '';
         try{
             const VID_REGEX = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-            const videoId = url.match(VID_REGEX)[1];
+            videoId = url.match(VID_REGEX)[1];
             if( videoId === '' || name.current.value === '' ){
                 throw 'invalidInputException';
-        }
+            }
+            videoState.setVideoId(videoId);
         }
         catch{
             alert('Check your name and YouTube link');
@@ -29,7 +32,7 @@ function Home() {
         }
         socket.userName = name.current.value;
         socket.roomId = socket.id;
-        socket.emit('create-room', { name: socket.userName, url });
+        socket.emit('create-room', { name: socket.userName, videoId });
         users.updateUsers([{id:socket.id, name: socket.userName}]);
         navigate(`/${socket.id}`);
     }
@@ -44,14 +47,14 @@ function Home() {
 
         const roomId = roomInput.current.value;
         socket.roomId = roomId;
-
         const response = await fetch(`http://localhost:3002/${roomId}`);
         const responseData = await response.json();
         if( !responseData.roomExists ){
             alert('Enter a valid room Id.');
             return;
         }
-        console.log(roomId);
+        videoState.setVideoId( responseData.videoId );
+        console.log(responseData);
         socket.emit('join-room', {name: socket.userName, roomId}, (response) => {
             console.log(response);
             users.updateUsers(response.roomData.users)
