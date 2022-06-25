@@ -1,8 +1,9 @@
 import React, { useContext, useRef } from 'react'
 import { Button, TextField } from '@mui/material';
 import Typewriter from 'typewriter-effect';
-import { socketContext, userContext, videoContext } from './App';
+import { socketContext } from './App';
 import { useNavigate } from 'react-router-dom';
+import { videoContext } from './VideoContext';
 
 
 function Home() {
@@ -12,7 +13,6 @@ function Home() {
     const name = useRef();
     let navigate = useNavigate();
     const socket = useContext(socketContext);
-    const users = useContext(userContext);
     const videoState = useContext(videoContext);
 
     const hostRoom = async () => {
@@ -33,8 +33,9 @@ function Home() {
         socket.userName = name.current.value;
         socket.roomId = socket.id;
         socket.emit('create-room', { name: socket.userName, videoId });
-        users.updateUsers([{id:socket.id, name: socket.userName}]);
-        navigate(`/${socket.id}`);
+        setTimeout(()=>{
+            navigate(`/${socket.id}`);
+        },1000)
     }
 
     const joinRoom = async () => {
@@ -55,10 +56,7 @@ function Home() {
         }
         videoState.setVideoId( responseData.videoId );
         console.log(responseData);
-        socket.emit('join-room', {name: socket.userName, roomId}, (response) => {
-            console.log(response);
-            users.updateUsers(response.roomData.users)
-        });
+        socket.emit('join-room', {name: socket.userName, roomId});
         socket.emit('update-userlist', roomId);
         navigate(`/${roomId}`);
     }

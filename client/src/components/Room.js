@@ -1,16 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import './Room.css'
 import Player from './Player';
 import Chat from './Chat';
+import VideoContext from './VideoContext';
+import UserContext from './UserContext';
 
 function Room() {
-    let { roomId } = useParams();
+  let { roomId } = useParams();
 
   return (
     <div className='roomContainer'>
-    <Player />
-    <Chat /> 
+      <VideoContext>
+        <Player />
+      </VideoContext>
+      <UserContext>
+        <Chat />
+      </UserContext>
     </div>
   )
 }

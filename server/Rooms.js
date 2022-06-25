@@ -33,8 +33,13 @@ class Rooms {
     }
 
     getUsers = ( roomId ) => {
-        let index = this.room.map((room) => room.roomId).indexOf(roomId);
-        return this.room[ index ].members;
+        return new Promise((resolve, reject)=>{
+            let index = this.room.map((room) => room.roomId).indexOf(roomId);
+            const members = this.room[ index ].members;
+            resolve(members);
+        }).catch(()=>{
+            console.log("couldn't fetch members");
+        })
 
     }
 

@@ -20,6 +20,14 @@ app.get('/:id', function (req, res) {
     })
   });
 
+app.get('/getUsers/:id', function (req, res) {
+    room.getUsers(req.params.id).then((result)=>{
+        res.json(result);
+    }).catch((err)=>{
+        console.log("Couldn't fetch users");
+    })
+  });
+
 io.on("connection", (socket) => {
     
     let roomId = socket.id;
@@ -31,16 +39,11 @@ io.on("connection", (socket) => {
     socket.on('join-room',( {name, roomId}, callback )=>{
         socket.join( roomId );
         room.addUser( roomId, {id:socket.id, name});
-        const users = room.getUsers( roomId );
-        socket.broadcast.to(roomId).emit('user-list', users)
-        callback(
-            {
-                roomData:{
-                    users,
-                    videoURL: room.getVideoUrl( roomId )
-                }
-            }
-        )
+        room.getUsers( roomId ).then((users)=>{
+            socket.broadcast.to(roomId).emit('user-list', users);
+        }).catch((err)=>{
+            console.log("couldn't fetch users");
+        })
     });
 
     socket.on('message-sent', ( messageData )=>{

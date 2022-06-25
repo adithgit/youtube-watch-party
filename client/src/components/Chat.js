@@ -6,9 +6,12 @@ import Input from '@mui/material/Input';
 import IconButton from '@mui/material/IconButton';
 import Send from '@mui/icons-material/Send';
 import { useEffect, useRef } from 'react';
-import { socketContext, userContext } from './App';
+import { socketContext } from './App';
+import { userContext } from './UserContext';
+import { useParams } from 'react-router-dom';
 
 function Chat() {
+  const paramObj = useParams();
   const chatBox = useRef();
   const textField = useRef();
   const user = useContext( userContext );
@@ -17,6 +20,7 @@ function Chat() {
 
   // Update user list when a user joins the room
   socket.on('user-list',( data )=>{
+    console.log(data);
     user.updateUsers( data )
   })
 
@@ -29,12 +33,18 @@ function Chat() {
     user.updateUsers( user.users.filter((socket)=>{
       return socket.id != socketId
     }) );
-    console.log(user.users);
   })
 
   useEffect(() => {
+    async function fetchUsers(){
+      console.log(paramObj.roomId);
+      const response = await fetch(`http://localhost:3002/getUsers/${paramObj.roomId}`);
+      const responseData = await response.json();
+      user.updateUsers( responseData );
+      console.log("Users fetched succesfullly");
+    }
+    fetchUsers();
 
-    console.log(socket.id);
     // Get the scroll height of textField and scroll down using top option of scroll method along with smooth behavior
     textField.current.addEventListener('DOMNodeInserted', event => {
       const { currentTarget: target } = event;
