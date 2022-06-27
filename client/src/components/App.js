@@ -4,7 +4,7 @@ import './App.css'
 import Home from './Home';
 import Room from './Room';
 import { socket } from './Connection';
-import VideoContext from './VideoContext';
+// import VideoContext from './VideoContext';
 import UserContext from './UserContext';
 
 export const socketContext = React.createContext();
@@ -18,13 +18,13 @@ function App() {
 
   return (
     <socketContext.Provider value={socket}>
-      <VideoContext>
+      {/* <VideoContext> */}
         <UserContext>
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>
         </UserContext>
-      </VideoContext>
+      {/* </VideoContext> */}
       <Routes>
         <Route path="/:roomId" element={<Room />} />
       </Routes>

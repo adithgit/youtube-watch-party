@@ -13,20 +13,30 @@ const io = new Server(httpServer, {
 
 app.use(cors());
 
-app.get('/:id', function (req, res) {
+app.get('/:id', (req, res) => {
     room.checkRoom( req.params.id ).then((result)=>{
         console.log(result);
         result ? res.json( {roomExists:true, videoId: result.videoId} ): res.json({roomExists:false});
     })
   });
 
-app.get('/getUsers/:id', function (req, res) {
+app.get('/getUsers/:id',  (req, res) => {
     room.getUsers(req.params.id).then((result)=>{
         res.json(result);
     }).catch((err)=>{
         console.log("Couldn't fetch users");
     })
   });
+
+
+app.get('/getVideoId/:id', (req, res)=>{
+    room.getVideoUrl( req.params.id ).then((videoId)=>{
+        console.log(videoId);
+        res.json({ videoId });
+    }).catch((err)=>{
+        console.log("couldn't fetch videoId");
+    })
+})
 
 io.on("connection", (socket) => {
     
@@ -50,12 +60,19 @@ io.on("connection", (socket) => {
         console.log(socket.id);
         io.to(messageData.roomId).emit('message-recieve', messageData );
     });
+    
+    socket.on('video-change', ({ roomId, videoId })=>{
+        console.log(roomId);
+        room.changeVideo(roomId, videoId);
+        io.to( roomId ).emit('change-video', videoId);
+    })
 
     socket.on('disconnect', ()=>{
         const roomID = room.getRoomId( socket.id )
         io.to( roomID ).emit('closed', socket.id );
         room.removeuser( socket.id );
-    })
+    });
+
 });
 
 httpServer.listen(3002);

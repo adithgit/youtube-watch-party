@@ -15,6 +15,7 @@ class Rooms {
             resolve(false)
         })
     }
+    
     addRoom = (roomId, host, videoId) => {
         // Push the newly created room into room array
         this.room.push({ roomId, members: [host], videoId });
@@ -48,8 +49,13 @@ class Rooms {
     }
 
     getVideoUrl = ( roomId ) => {
-        let index = this.room.map((room) => room.roomId).indexOf(roomId);
-        return this.room[ index ].videoURL
+        return new Promise((resolve, reject)=>{
+            let index = this.room.map((room) => room.roomId).indexOf(roomId);
+            const id = this.room[index].videoId;
+            resolve(id);    
+        }).catch((err)=>{
+            reject(err);
+        })
     }
 
     removeuser = (userId) => {
@@ -66,6 +72,14 @@ class Rooms {
         catch (e) {
             console.log("error deleting user.");
         }
+    }
+
+    changeVideo = (roomId, videoId)=>{
+        this.room.map((room)=>{
+            if( room.roomId === roomId ){
+                room.videoId = videoId;
+            }
+        });
     }
 }
 

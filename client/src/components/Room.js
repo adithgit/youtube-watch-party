@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import './Room.css'
 import Player from './Player';
 import Chat from './Chat';
-import VideoContext from './VideoContext';
 import UserContext from './UserContext';
 
 function Room() {
@@ -11,9 +10,7 @@ function Room() {
 
   return (
     <div className='roomContainer'>
-      <VideoContext>
         <Player />
-      </VideoContext>
       <UserContext>
         <Chat />
       </UserContext>

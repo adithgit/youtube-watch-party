@@ -3,7 +3,7 @@ import { Button, TextField } from '@mui/material';
 import Typewriter from 'typewriter-effect';
 import { socketContext } from './App';
 import { useNavigate } from 'react-router-dom';
-import { videoContext } from './VideoContext';
+// import { videoContext } from './VideoContext';
 
 
 function Home() {
@@ -13,7 +13,7 @@ function Home() {
     const name = useRef();
     let navigate = useNavigate();
     const socket = useContext(socketContext);
-    const videoState = useContext(videoContext);
+    // const videoState = useContext(videoContext);
 
     const hostRoom = async () => {
         const url = videoURL.current.value || '';
@@ -24,7 +24,6 @@ function Home() {
             if( videoId === '' || name.current.value === '' ){
                 throw 'invalidInputException';
             }
-            videoState.setVideoId(videoId);
         }
         catch{
             alert('Check your name and YouTube link');
@@ -54,7 +53,6 @@ function Home() {
             alert('Enter a valid room Id.');
             return;
         }
-        videoState.setVideoId( responseData.videoId );
         console.log(responseData);
         socket.emit('join-room', {name: socket.userName, roomId});
         socket.emit('update-userlist', roomId);
