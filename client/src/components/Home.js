@@ -3,7 +3,6 @@ import { Button, TextField } from '@mui/material';
 import Typewriter from 'typewriter-effect';
 import { socketContext } from './App';
 import { useNavigate } from 'react-router-dom';
-// import { videoContext } from './VideoContext';
 
 
 function Home() {
@@ -13,34 +12,32 @@ function Home() {
     const name = useRef();
     let navigate = useNavigate();
     const socket = useContext(socketContext);
-    // const videoState = useContext(videoContext);
 
     const hostRoom = async () => {
         const url = videoURL.current.value || '';
         let videoId = '';
-        try{
+        try {
             const VID_REGEX = /(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
             videoId = url.match(VID_REGEX)[1];
-            if( videoId === '' || name.current.value === '' ){
+            if (videoId === '' || name.current.value === '') {
                 throw 'invalidInputException';
             }
         }
-        catch{
+        catch {
             alert('Check your name and YouTube link');
             return;
         }
         socket.userName = name.current.value;
         socket.roomId = socket.id;
-        socket.emit('create-room', { name: socket.userName, videoId });
-        setTimeout(()=>{
+        socket.emit('create-room', { name: socket.userName, videoId }, () => {
             navigate(`/${socket.id}`);
-        },1000)
+        });
     }
 
     const joinRoom = async () => {
         socket.userName = name.current.value;
-        
-        if( name.current.value === '' ){
+
+        if (name.current.value === '') {
             alert('Enter a valid Name.');
             return;
         }
@@ -49,14 +46,15 @@ function Home() {
         socket.roomId = roomId;
         const response = await fetch(`http://localhost:3002/${roomId}`);
         const responseData = await response.json();
-        if( !responseData.roomExists ){
+        if (!responseData.roomExists) {
             alert('Enter a valid room Id.');
             return;
         }
         console.log(responseData);
-        socket.emit('join-room', {name: socket.userName, roomId});
         socket.emit('update-userlist', roomId);
-        navigate(`/${roomId}`);
+        socket.emit('join-room', { name: socket.userName, roomId }, () =>{
+            navigate(`/${roomId}`);
+        });
     }
 
     return (

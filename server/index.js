@@ -41,9 +41,10 @@ app.get('/getVideoId/:id', (req, res)=>{
 io.on("connection", (socket) => {
     
     let roomId = socket.id;
-    socket.on('create-room',( { name, videoId } )=>{
+    socket.on('create-room',( { name, videoId }, callback )=>{
         socket.join(roomId);
         room.addRoom( roomId, {id:roomId, name}, videoId );
+        callback();
     });
 
     socket.on('join-room',( {name, roomId}, callback )=>{
@@ -53,7 +54,8 @@ io.on("connection", (socket) => {
             socket.broadcast.to(roomId).emit('user-list', users);
         }).catch((err)=>{
             console.log("couldn't fetch users");
-        })
+        });
+        callback();
     });
 
     socket.on('message-sent', ( messageData )=>{
@@ -62,7 +64,6 @@ io.on("connection", (socket) => {
     });
     
     socket.on('video-change', ({ roomId, videoId })=>{
-        console.log(roomId);
         room.changeVideo(roomId, videoId);
         io.to( roomId ).emit('change-video', videoId);
     })
