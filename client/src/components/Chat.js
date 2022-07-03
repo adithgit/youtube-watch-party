@@ -82,11 +82,11 @@ function Chat() {
         <div className='member-field'>
           <span style={{ marginRight: '1rem' }}>MEMBERS</span>
           {
-            user.users.map((member) => {
+            user.users?user.users.map((member) => {
               return <span className='member'>
                 {member.name}
               </span>
-            })
+            }):""
           }
         </div>
         <div className='text-field' ref={textField}>

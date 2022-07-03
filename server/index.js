@@ -22,6 +22,7 @@ app.get('/:id', (req, res) => {
 
 app.get('/getUsers/:id',  (req, res) => {
     room.getUsers(req.params.id).then((result)=>{
+        console.log(result);
         res.json(result);
     }).catch((err)=>{
         console.log("Couldn't fetch users");
@@ -76,4 +77,4 @@ io.on("connection", (socket) => {
 
 });
 
-httpServer.listen(3002);
+httpServer.listen(process.env.PORT || 3002);
