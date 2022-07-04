@@ -67,7 +67,31 @@ io.on("connection", (socket) => {
     socket.on('video-change', ({ roomId, videoId })=>{
         room.changeVideo(roomId, videoId);
         io.to( roomId ).emit('change-video', videoId);
+    });
+
+    socket.on('pause', ({roomId, socketId})=>{
+        console.log("This is room id"+roomId);
+        room.getUsers(roomId).then((result)=>{
+            const userDetails = result.map((userDetails)=>{
+                if( userDetails.id === socketId ){
+                    const name = userDetails.name;
+                    io.to( roomId ).emit('pause-video', {name, socketId});
+                }
+            });
+        });
+    });
+
+    socket.on('play',({roomId, socketId, time})=>{
+        room.getUsers(roomId).then((result)=>{
+            const userDetails = result.map((userDetails)=>{
+                if( userDetails.id === socketId ){
+                    const name = userDetails.name;
+                    io.to( roomId ).emit('seek-video', {name, socketId, time});
+                }
+            })
+        })
     })
+
 
     socket.on('disconnect', ()=>{
         const roomID = room.getRoomId( socket.id )
