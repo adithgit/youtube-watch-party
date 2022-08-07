@@ -92,8 +92,6 @@ function Player() {
 
     }
   }
-
-
   return (
     <div className='youtube-container'>
       <Snackbar open={open.state} autoHideDuration={6000} onClose={handleClose}>

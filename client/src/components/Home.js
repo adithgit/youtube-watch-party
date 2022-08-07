@@ -4,7 +4,6 @@ import Typewriter from 'typewriter-effect';
 import { socketContext } from './App';
 import { useNavigate } from 'react-router-dom';
 
-
 function Home() {
 
     const videoURL = useRef();
@@ -33,7 +32,6 @@ function Home() {
             navigate(`/${socket.id}`);
         });
     }
-
     const joinRoom = async () => {
         socket.userName = name.current.value;
 
@@ -41,7 +39,6 @@ function Home() {
             alert('Enter a valid Name.');
             return;
         }
-
         const roomId = roomInput.current.value;
         socket.roomId = roomId;
         const response = await fetch(`http://localhost:3002/${roomId}`);
@@ -52,11 +49,9 @@ function Home() {
         }
         console.log(responseData);
         socket.emit('update-userlist', roomId);
-        socket.emit('join-room', { name: socket.userName, roomId }, () =>{
+        socket.emit('join-room', { name: socket.userName, roomId }, () => {
             navigate(`/${roomId}`);
-        });
-    }
-
+        });}
     return (
         <div className='app-container flex'>
             <div className="youtube-section flex">
@@ -72,7 +67,6 @@ function Home() {
                         }}
                     />
                     </span>
-
                 </div>
             </div>
             <div className="input-section">
@@ -94,7 +88,7 @@ function Home() {
                 </div>
             </div>
         </div>
-    )
-}
-
+    )}
 export default Home
+
+

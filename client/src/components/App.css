@@ -27,8 +27,8 @@
 .youtube-thumbnail{
   width: 90%;
   border-radius: 10px;
-  box-shadow: 0px 0px 2px 1px rgb(73, 33, 255);
-  animation: colors 10s infinite;
+  /* box-shadow: 0px 0px 2px 1px rgb(73, 33, 255); */
+  /* animation: colors 10s infinite; */
   
 }
 .youtube-image{

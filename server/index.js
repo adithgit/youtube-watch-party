@@ -26,7 +26,7 @@ app.get('/getUsers/:id',  (req, res) => {
         res.json(result);
     }).catch((err)=>{
         console.log("Couldn't fetch users");
-    })
+    });
   });
 
 
@@ -36,7 +36,7 @@ app.get('/getVideoId/:id', (req, res)=>{
         res.json({ videoId });
     }).catch((err)=>{
         console.log("couldn't fetch videoId");
-    })
+    });
 })
 
 io.on("connection", (socket) => {
@@ -91,8 +91,7 @@ io.on("connection", (socket) => {
             })
         })
     });
-
-
+    
     socket.on('disconnect', ()=>{
         const roomID = room.getRoomId( socket.id )
         io.to( roomID ).emit('closed', socket.id );

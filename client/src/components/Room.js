@@ -6,8 +6,6 @@ import Chat from './Chat';
 import UserContext from './UserContext';
 
 function Room() {
-  let { roomId } = useParams();
-
   return (
     <div className='roomContainer'>
         <Player />
