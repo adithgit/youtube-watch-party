@@ -16,7 +16,7 @@ function Player() {
   useEffect(() => {
     async function fetchVideoId() {
       const roomId = urlParams.roomId;
-      const response = await fetch(`http://localhost:3002/getVideoId/${roomId}`);
+      const response = await fetch(`https://ytube-watch-party.herokuapp.com/getVideoId/${roomId}`);
       const { videoId } = await response.json();
       setVideoId(videoId);
       console.log("Video fetched succesfullly");

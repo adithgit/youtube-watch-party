@@ -7,7 +7,7 @@ const httpServer = createServer(app);
 const room = require('./Rooms')
 const io = new Server(httpServer, {
     cors: {
-        origin: 'https://youtube-watch-party-pt3c5nc18-adithyaudayan952-gmailcom.vercel.app/'
+        origin: '*'
     }
 });
 
