@@ -45,7 +45,7 @@ function Chat() {
   useEffect(() => {
     async function fetchUsers() {
       console.log(paramObj.roomId);
-      const response = await fetch(`https://ytube-watch-party.herokuapp.com/getUsers/${paramObj.roomId}`);
+      const response = await fetch(`https://youtube-watchparty-server.onrender.com/getUsers/${paramObj.roomId}`);
       const responseData = await response.json();
       user.updateUsers(responseData);
       console.log("Users fetched succesfullly");
