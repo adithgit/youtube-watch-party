@@ -41,7 +41,7 @@ function Home() {
         }
         const roomId = roomInput.current.value;
         socket.roomId = roomId;
-        const response = await fetch(`https://ytube-watch-party.herokuapp.com/${roomId}`);
+        const response = await fetch(`https://youtube-watchparty-server.onrender.com/${roomId}`);
         const responseData = await response.json();
         if (!responseData.roomExists) {
             alert('Enter a valid room Id.');
